@@ -29,7 +29,7 @@
 
 **启动文件添加后的工程目录参考：**
 
-![启动文件添加示例](./Docs/startup_files.png)
+![启动文件添加示例](./startup_files.png)
 
 ---
 
