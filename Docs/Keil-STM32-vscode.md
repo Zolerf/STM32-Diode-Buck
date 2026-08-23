@@ -29,7 +29,7 @@
 
 **启动文件添加后的工程目录参考：**
 
-![启动文件添加示例](./startup_files.png)
+![启动文件](./startup_files.png)
 
 ---
 
@@ -82,7 +82,7 @@ CMSIS（Cortex Microcontroller Software Interface Standard）核心文件，提�
 
 **工程中添加的库文件参考：**
 
-![库文件添加示例](./library_files.png)
+![库文件](./library_files.png)
 
 ---
 
@@ -104,7 +104,7 @@ CMSIS（Cortex Microcontroller Software Interface Standard）核心文件，提�
 
 **添加后的用户文件参考：**
 
-![用户文件添加示例](./user_files.png)
+![用户文件](./user_files.png)
 
 ---
 
