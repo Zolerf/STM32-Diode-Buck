@@ -219,27 +219,22 @@ C:\Keil_v5\UV4\UV4.exe
 ---
 
 ## 📚 附录：固件库目录结构速查
-STM32F10x_StdPeriph_Lib_V3.5.0/
-├── Libraries/
-│ ├── CMSIS/
-│ │ └── CM3/
-│ │ ├── CoreSupport/ ← 核心文件
-│ │ └── DeviceSupport/
-│ │ └── ST/
-│ │ └── STM32F10x/
-│ │ ├── startup/
-│ │ │ └── arm/ ← 启动文件
-│ │ ├── stm32f10x.h
-│ │ └── system_stm32f10x.c
-│ └── STM32F10x_StdPeriph_Driver/
-│ ├── inc/ ← 外设库头文件
-│ └── src/ ← 外设库源文件
-└── Project/
-└── STM32F10x_StdPeriph_Template/ ← 用户模板文件
-├── main.c
-├── stm32f10x_it.c
-├── stm32f10x_it.h
-└── stm32f10x_conf.h
+
+| 文件夹/文件 | 路径 | 作用 |
+|------------|------|------|
+| **CoreSupport** | `...\Libraries\CMSIS\CM3\CoreSupport\` | Cortex-M3 内核核心文件 |
+| **DeviceSupport** | `...\Libraries\CMSIS\CM3\DeviceSupport\ST\STM32F10x\` | STM32F10x 设备支持 |
+| ├─ `startup\arm\` | `...\...\startup\arm\` | 启动文件（`.s`） |
+| ├─ `stm32f10x.h` | `...\...\stm32f10x.h` | 外设寄存器定义 |
+| └─ `system_stm32f10x.c` | `...\...\system_stm32f10x.c` | 系统时钟初始化 |
+| **StdPeriph_Driver** | `...\Libraries\STM32F10x_StdPeriph_Driver\` | 标准外设库 |
+| ├─ `inc\` | `...\...\inc\` | 外设驱动头文件（`.h`） |
+| └─ `src\` | `...\...\src\` | 外设驱动源文件（`.c`） |
+| **User Template** | `...\Project\STM32F10x_StdPeriph_Template\` | 用户工程模板 |
+| ├─ `main.c` | `...\...\main.c` | 主函数入口 |
+| ├─ `stm32f10x_it.c` | `...\...\stm32f10x_it.c` | 中断服务函数 |
+| ├─ `stm32f10x_it.h` | `...\...\stm32f10x_it.h` | 中断声明头文件 |
+| └─ `stm32f10x_conf.h` | `...\...\stm32f10x_conf.h` | 外设库配置文件 |
 
 ---
 
