@@ -29,7 +29,7 @@
 
 **启动文件添加后的工程目录参考：**
 
-![启动文件](./startup_files.png)
+![启动文件](./images/startup_files.png)
 
 ---
 
@@ -82,7 +82,7 @@ CMSIS（Cortex Microcontroller Software Interface Standard）核心文件，提�
 
 **工程中添加的库文件参考：**
 
-![库文件](./library_files.png)
+![库文件](./images/library_files.png)
 
 ---
 
@@ -104,7 +104,7 @@ CMSIS（Cortex Microcontroller Software Interface Standard）核心文件，提�
 
 **添加后的用户文件参考：**
 
-![用户文件](./user_files.png)
+![用户文件](./images/user_files.png)
 
 ---
 
@@ -118,7 +118,7 @@ CMSIS（Cortex Microcontroller Software Interface Standard）核心文件，提�
 
 设置工程文件编码为 **UTF-8**，避免中文注释乱码。
 
-![编码设置为UTF-8](./encoding_setting.png)
+![编码设置为UTF-8](./images/encoding_setting.png)
 
 ### 6.2 C/C++ 编译器配置
 
@@ -142,7 +142,7 @@ USE_STDPERIPH_DRIVER
 
 **配置界面参考：**
 
-![C/C++配置](./cpp_settings.png)
+![C/C++配置](./images/cpp_settings.png)
 
 ---
 
@@ -153,7 +153,7 @@ USE_STDPERIPH_DRIVER
 1. 选择 **ST-Link Debugger**
 2. 点击 **Settings**
 
-![Debug设置](./debug_setting.png)
+![Debug设置](./images/debug_setting.png)
 
 #### 6.3.1 Flash Download 设置
 
@@ -161,7 +161,7 @@ USE_STDPERIPH_DRIVER
 
 - ✅ 勾选 **Reset and Run**（下载完成后自动复位并运行程序）
 
-![Flash Download设置](./flash_download.png)
+![Flash Download设置](./images/flash_download.png)
 
 ---
 
