@@ -10,9 +10,9 @@
 |------|------|------|
 | 输入电压 | $V_i$ | 12V |
 | 输出电压 | $V_o$ | 5V |
-| 最大负载电阻 | $R$ | 5Ω |
 | 最大输出电流 | $I_o$ | 1A |
-| 开关频率 | $f$ | 100kHz（由 STM32 PWM 输出） |
+| 负载电阻 | $R$ | 5Ω |
+| 开关频率 | $f$ | 100kHz |
 
 ---
 
@@ -43,7 +43,7 @@ $$U_L = L \frac{di}{dt}$$
 
 $$U_{on} = V_i - V_o$$
 
-关断期间电感两端电压（以导通方向为参考）为：
+关断期间电感两端电压为：
 
 $$U_{off} = V_o + V_d$$
 
@@ -53,11 +53,11 @@ $$U_{on} \times t_1 = U_{off} \times t_2$$
 
 联立以上关系，可得：
 
-$$\begin{cases}
-t_1 = \dfrac{V_o + V_d}{V_i + V_d} \cdot T \\[8pt]
-t_2 = \dfrac{V_i - V_o}{V_i + V_d} \cdot T \\[8pt]
-D = \dfrac{t_1}{T} = \dfrac{V_o + V_d}{V_i + V_d}
-\end{cases}$$
+$$t_1 = \frac{V_o + V_d}{V_i + V_d} \times T$$
+
+$$t_2 = \frac{V_i - V_o}{V_i + V_d} \times T$$
+
+$$D = \frac{t_1}{T} = \frac{V_o + V_d}{V_i + V_d}$$
 
 其中 $V_d$ 为续流二极管正向导通压降。
 
@@ -69,7 +69,7 @@ D = \dfrac{t_1}{T} = \dfrac{V_o + V_d}{V_i + V_d}
 
 ### 4.1 纹波电流 $\Delta I_L$ 与电感感量的关系
 
-Buck 电路中电感电流呈现周期性三角波，其峰峰值纹波电流 $\Delta I_L$ 等于导通期间电流的增量，由伏秒定律决定：
+Buck 电路中电感电流呈现周期性三角波，其峰峰值纹波电流 $\Delta I_L$ 等于导通期间电流的增量：
 
 $$\Delta I_L = \frac{U_{on}}{L} \times t_1 = \frac{V_i - V_o}{L} \times \frac{V_o + V_d}{V_i + V_d} \times \frac{1}{f}$$
 
@@ -77,15 +77,15 @@ $$\Delta I_L = \frac{U_{on}}{L} \times t_1 = \frac{V_i - V_o}{L} \times \frac{V_
 
 $$\Delta I_L = \frac{V_o + V_d}{Lf} \times \frac{V_i - V_o}{V_i + V_d}$$
 
-由上式可知，$\Delta I_L$ 与 $L$ 和 $f$ 成反比，增大电感量或提高开关频率均可降低纹波电流。
+由上式可知，$\Delta I_L$ 与 $L$ 和 $f$ 成反比。
 
 ### 4.2 电感感量计算
 
-工程上，纹波电流 $\Delta I_L$ 通常取输出电流 $I_o$ 的 **20%~40%**。
+工程上，纹波电流 $\Delta I_L$ 通常取输出电流 $I_o$ 的 **20%~40%**：
 
 $$L = \frac{V_o + V_d}{\Delta I_L \cdot f} \times \frac{V_i - V_o}{V_i + V_d}$$
 
-代入 $V_i = 12\text{V}$，$V_o = 5\text{V}$，$f = 100\text{kHz}$，$\Delta I_L = 0.2I_o \sim 0.4I_o$，且忽略续流二极管压降 $V_d$：
+代入 $V_i = 12\text{V}$，$V_o = 5\text{V}$，$f = 100\text{kHz}$，$\Delta I_L = 0.2I_o \sim 0.4I_o$，忽略续流二极管压降 $V_d$：
 
 $$L = \frac{5}{(0.2 \sim 0.4) \times 100 \times 10^3} \times \frac{12 - 5}{12}$$
 
@@ -113,12 +113,12 @@ $$I_{sat} \geq 1.5\text{A}$$
 
 | 指标 | 设计要求 | 说明 |
 |------|----------|------|
-| **耐压** | $\geq 1.5 \sim 2$ 倍 $V_i$，即 $\geq 24\text{V}$ | 实际选 40V 或 60V 肖特基，以承受开关尖峰 |
-| **电流** | 平均电流约 $0.58\text{A}$，峰值约 $1.2\text{A}$ | 额定电流选 $1.5\text{A} \sim 2\text{A}$，留足余量 |
-| **速度** | 必须为快恢复或肖特基 | 避免反向恢复导致短路烧毁 |
-| **压降** | 尽量小 | 减小导通损耗，提高效率 |
+| **耐压** | $\geq 1.5 \sim 2$ 倍 $V_i$，即 $\geq 24\text{V}$ | 实际选 40V 或 60V 肖特基 |
+| **电流** | 平均电流约 $0.58\text{A}$，峰值约 $1.2\text{A}$ | 额定电流选 $1.5\text{A} \sim 2\text{A}$ |
+| **速度** | 快恢复或肖特基 | 避免反向恢复导致短路烧毁 |
+| **压降** | 尽量小 | 减小导通损耗 |
 
-**选型结论**：选用 **SS34 肖特基二极管**（40V/3A，压降低，反向恢复时间极短，适合高频开关）。
+**选型结论**：选用 **SS34 肖特基二极管**（40V/3A）。
 
 ---
 
@@ -126,14 +126,13 @@ $$I_{sat} \geq 1.5\text{A}$$
 
 输入电容的电压纹波由两部分组成：
 
-- **$U_q$**：由电容充放电（电荷变化）引起的电压波动
-- **$U_{esr}$**：由等效串联电阻（ESR）上的压降产生
-
 $$\Delta V_i = U_q + U_{esr}$$
+
+其中 $U_q$ 由电荷变化引起，$U_{esr}$ 由等效串联电阻（ESR）引起。
 
 ### 6.1 电荷引起的纹波分量 $U_q$
 
-由能量守恒（忽略 MOS 管损耗），输入功率等于负载功率与二极管损耗功率之和：
+由能量守恒（忽略 MOS 管损耗）：
 
 $$V_i \times I_i = V_o \times I_o + V_d \times I_o \times \frac{V_i - V_o}{V_i + V_d}$$
 
@@ -151,10 +150,7 @@ $$U_q = \frac{Q}{C_i} = \frac{I_o \left( V_o + V_d \cdot \dfrac{V_i - V_o}{V_i +
 
 ### 6.2 ESR 引起的纹波分量 $U_{esr}$
 
-- **充电阶段**：流过 ESR 的电流为输入电流 $I_i$
-- **放电阶段**：流过 ESR 的电流为 $I_o + \dfrac{\Delta I_L}{2}$
-
-取电流较大者，ESR 压降为：
+ESR 压降为：
 
 $$U_{esr} = \left( I_o + \frac{\Delta I_L}{2} \right) \times ESR$$
 
@@ -164,11 +160,13 @@ $$\Delta I_L = \frac{V_o + V_d}{Lf} \times \frac{V_i - V_o}{V_i + V_d}$$
 
 ### 6.3 综合表达式
 
-$$\begin{cases}
-U_q = \dfrac{I_o \left( V_o + V_d \cdot \dfrac{V_i - V_o}{V_i + V_d} \right)}{V_i \cdot f \cdot C_i} \times \dfrac{V_i - V_o}{V_i + V_d} \\[10pt]
-U_{esr} = \left( I_o + \dfrac{V_o + V_d}{2Lf} \times \dfrac{V_i - V_o}{V_i + V_d} \right) \times ESR \\[10pt]
-\Delta V_i = U_q + U_{esr}
-\end{cases}$$
+输入电容纹波：
+
+$$U_q = \frac{I_o \left( V_o + V_d \cdot \dfrac{V_i - V_o}{V_i + V_d} \right)}{V_i \cdot f \cdot C_i} \times \frac{V_i - V_o}{V_i + V_d}$$
+
+$$U_{esr} = \left( I_o + \frac{V_o + V_d}{2Lf} \times \frac{V_i - V_o}{V_i + V_d} \right) \times ESR$$
+
+$$\Delta V_i = U_q + U_{esr}$$
 
 工程上，$\Delta V_i$ 通常取输入电压的 **1%~2%**。
 
@@ -191,19 +189,19 @@ $$U_{qo} = \frac{Q_o}{C_o} = \frac{\Delta I_L}{8f C_o} = \frac{V_o + V_d}{8f^2 L
 
 ### 7.2 ESR 引起的纹波分量 $U_{esro}$
 
-输出端 ESR 上流过的电流变化量为 $\Delta I_L$，因此：
-
 $$U_{esro} = \Delta I_L \times ESR = \frac{V_o + V_d}{Lf} \times \frac{V_i - V_o}{V_i + V_d} \times ESR$$
 
 ### 7.3 综合表达式
 
-$$\begin{cases}
-U_{qo} = \dfrac{V_o + V_d}{8f^2 L C_o} \times \dfrac{V_i - V_o}{V_i + V_d} \\[10pt]
-U_{esro} = \dfrac{V_o + V_d}{Lf} \times \dfrac{V_i - V_o}{V_i + V_d} \times ESR \\[10pt]
-\Delta V_o = U_{qo} + U_{esro}
-\end{cases}$$
+输出电容纹波：
 
-$\Delta V_o$ 通常取输出电压的 **0.5%~2%**。选型判据与输入电容相同。
+$$U_{qo} = \frac{V_o + V_d}{8f^2 L C_o} \times \frac{V_i - V_o}{V_i + V_d}$$
+
+$$U_{esro} = \frac{V_o + V_d}{Lf} \times \frac{V_i - V_o}{V_i + V_d} \times ESR$$
+
+$$\Delta V_o = U_{qo} + U_{esro}$$
+
+$\Delta V_o$ 通常取输出电压的 **0.5%~2%**。
 
 ---
 
@@ -219,7 +217,7 @@ $\Delta V_o$ 通常取输出电压的 **0.5%~2%**。选型判据与输入电容�
 | 寿命 | 长 | 有限 |
 | 主要作用 | 高频滤波、吸收尖峰 | 储能、低频滤波、抑制阻尼振荡 |
 
-在实际工程中，通常采用**电解电容 + 陶瓷电容**搭配使用。
+在实际工程中，通常采用 **电解电容 + 陶瓷电容** 搭配使用。
 
 ---
 
@@ -262,7 +260,7 @@ $$C_t \geq \frac{I_{\max} \times t_{up}}{\Delta V_{\max}}$$
 | **电流能力** | $\geq 1.5 \sim 2$ 倍 $I_{L\max}$ |
 | **导通电阻 $R_{ds(on)}$** | 尽量小，降低导通损耗 |
 | **栅极电荷 $Q_g$** | 尽量小，提高开关速度，降低开关损耗 |
-| **栅极阈值电压 $V_{gs(th)}$** | 需与驱动电压匹配（本设计驱动电压 12V，选增强型 N-MOS） |
+| **栅极阈值电压 $V_{gs(th)}$** | 需与驱动电压匹配（本设计驱动电压 12V） |
 
 ---
 
@@ -296,7 +294,7 @@ $$C_t \geq \frac{I_{\max} \times t_{up}}{\Delta V_{\max}}$$
 | 输出电解电容 | 47μF / 50V | 1 颗 |
 | 输出陶瓷电容 | 100nF / 50V | 1 颗 |
 
-> 两个方案可分别制作 PCB 进行对比测试，验证陶瓷电容与电解电容在实际纹波抑制和动态响应方面的差异。
+> 两个方案可分别制作 PCB 进行对比测试。
 
 ---
 
@@ -312,19 +310,19 @@ $$L = \frac{V_o + V_d}{\Delta I_L \cdot f} \times \frac{V_i - V_o}{V_i + V_d}$$
 
 ### 输入电容纹波：
 
-$$\begin{cases}
-U_q = \dfrac{I_o \left( V_o + V_d \cdot \dfrac{V_i - V_o}{V_i + V_d} \right)}{V_i \cdot f \cdot C_i} \times \dfrac{V_i - V_o}{V_i + V_d} \\[10pt]
-U_{esr} = \left( I_o + \dfrac{V_o + V_d}{2Lf} \times \dfrac{V_i - V_o}{V_i + V_d} \right) \times ESR \\[10pt]
-\Delta V_i = U_q + U_{esr}
-\end{cases}$$
+$$U_q = \frac{I_o \left( V_o + V_d \cdot \dfrac{V_i - V_o}{V_i + V_d} \right)}{V_i \cdot f \cdot C_i} \times \frac{V_i - V_o}{V_i + V_d}$$
+
+$$U_{esr} = \left( I_o + \frac{V_o + V_d}{2Lf} \times \frac{V_i - V_o}{V_i + V_d} \right) \times ESR$$
+
+$$\Delta V_i = U_q + U_{esr}$$
 
 ### 输出电容纹波：
 
-$$\begin{cases}
-U_{qo} = \dfrac{V_o + V_d}{8f^2 L C_o} \times \dfrac{V_i - V_o}{V_i + V_d} \\[10pt]
-U_{esro} = \dfrac{V_o + V_d}{Lf} \times \dfrac{V_i - V_o}{V_i + V_d} \times ESR \\[10pt]
-\Delta V_o = U_{qo} + U_{esro}
-\end{cases}$$
+$$U_{qo} = \frac{V_o + V_d}{8f^2 L C_o} \times \frac{V_i - V_o}{V_i + V_d}$$
+
+$$U_{esro} = \frac{V_o + V_d}{Lf} \times \frac{V_i - V_o}{V_i + V_d} \times ESR$$
+
+$$\Delta V_o = U_{qo} + U_{esro}$$
 
 ### 电解电容简化选型：
 
