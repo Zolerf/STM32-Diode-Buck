@@ -43,7 +43,7 @@ STM32-Diode-Buck/
 - [x] 确定 Buck 拓扑方案：非同步整流
 - [x] 器件选型（MOS 管、电感、电容、驱动芯片）
 - [x] 原理图绘制
-- [ ] PCB 设计
+- [x] PCB 设计
 - [ ] 实物制作与调试
 
 > 详细进展与决策记录请参见 [CHANGELOG.md](./CHANGELOG.md)。
